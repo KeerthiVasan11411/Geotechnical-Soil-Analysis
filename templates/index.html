@@ -4,127 +4,230 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chennai Geotechnical Soil Analysis System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            margin: 0;
-            padding: 30px 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            max-width: 700px;
-            width: 100%;
-        }
-        h1 { color: #2c3e50; text-align: center; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; color: #34495e; }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 15px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover { background-color: #219150; }
-        
-        .error-box {
-            margin-top: 25px;
-            padding: 15px 20px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 6px;
-            border: 1px solid #f5c6cb;
-            font-weight: bold;
-            text-align: center;
-            font-size: 16px;
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --card-inner: #f1f5f9;
+            --accent-black: #0f172a;
+            --border-color: #e2e8f0;
+            --border-dark: #cbd5e1;
+            --text-muted: #64748b;
         }
 
-        .results {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #f8faf9;
-            border-radius: 8px;
-            border: 1px solid #e1e8e5;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--accent-black);
+            min-height: 100vh;
+            padding: 40px 0;
         }
-        .results h2 { margin-top: 0; color: #2c3e50; border-bottom: 2px solid #27ae60; padding-bottom: 8px; }
-        
-        .data-table {
+
+        .hero-title {
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .card-custom {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Inverted Black Button */
+        .btn-custom {
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #0f172a;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-custom:hover {
+            background: #1e293b;
+            color: #ffffff;
+            border-color: #1e293b;
+            transform: translateY(-1px);
+        }
+
+        .form-control-custom {
+            background: #ffffff;
+            border: 1px solid var(--border-dark);
+            color: #0f172a;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .form-control-custom:focus {
+            background: #ffffff;
+            border-color: var(--accent-black);
+            color: #0f172a;
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.15);
+        }
+
+        /* Top Location Card */
+        .location-header-card {
+            background: var(--card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .location-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .coord-box {
+            background: #ffffff;
+            border: 1px solid var(--border-dark);
+            border-radius: 10px;
+            padding: 10px 16px;
+        }
+
+        /* Line-by-Line Report Table */
+        .report-table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+            margin-bottom: 0;
+            color: #0f172a;
         }
-        .data-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #e1e8e5;
-            font-size: 14px;
+
+        .report-table th, 
+        .report-table td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
         }
-        .data-table td.key {
-            font-weight: bold;
-            color: #2c3e50;
-            width: 50%;
+
+        .report-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
         }
-        .highlight {
-            background-color: #eef9f2;
-            font-weight: bold;
-            color: #1e7e34;
+
+        .report-table td.param-name {
+            font-weight: 500;
+            color: var(--text-muted);
+            width: 45%;
+        }
+
+        .report-table td.param-value {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        /* Out of Bounds Error Message */
+        .alert-out-of-bounds {
+            background: #ffffff;
+            border: 1px solid #0f172a;
+            color: #0f172a;
+            border-radius: 12px;
+            padding: 16px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🏗️ Chennai Geotechnical Soil Analysis</h1>
-        
-        <form action="/" method="POST">
-            <div class="form-group">
-                <label for="latitude">Latitude (Range: 12.7817 to 13.1740):</label>
-                <input type="text" id="latitude" name="latitude" placeholder="e.g. 13.0065" required>
-            </div>
-            <div class="form-group">
-                <label for="longitude">Longitude (Range: 80.0940 to 80.3010):</label>
-                <input type="text" id="longitude" name="longitude" placeholder="e.g. 80.2210" required>
-            </div>
-            <button type="submit">Analyze Geotechnical Properties</button>
-        </form>
 
-        {% if error_message %}
-        <div class="error-box">
-            ⚠️ {{ error_message }}
-        </div>
-        {% endif %}
-
-        {% if result %}
-        <div class="results">
-            <h2>Geotechnical Analysis Result</h2>
-            <table class="data-table">
-                {% for key, value in result.items() %}
-                <tr class="{% if key == 'Recommended Foundation' or key == 'Bearing Capacity (kN/m²)' %}highlight{% endif %}">
-                    <td class="key">{{ key }}</td>
-                    <td>{{ value }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-        {% endif %}
+<div class="container">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="hero-title display-5">Chennai Geotechnical Soil Analysis</h1>
+        <p class="text-secondary">Spatial Coordinate Parameter Locator</p>
     </div>
+
+    <!-- Input Form Card -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card card-custom p-4">
+                <form method="POST">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-dark small fw-bold">Latitude (12.7836 to 13.1693)</label>
+                            <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-dark small fw-bold">Longitude (80.0955 to 80.2977)</label>
+                            <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-custom w-100 mt-4">Analyze Soil Parameters</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Out of Bounds Error Message -->
+    {% if error_msg %}
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8 text-center">
+            <div class="alert-out-of-bounds">
+                ⚠️ {{ error_msg }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Report Section -->
+    {% if result %}
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card card-custom p-4">
+                
+                <!-- TOP CARD: Location & Searched Coordinates -->
+                <div class="location-header-card mb-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                        <div>
+                            <span class="text-uppercase small fw-bold text-secondary">Matched Region</span>
+                            <div class="location-title">{{ result.details['Location (Chennai)'] }}</div>
+                            <div class="text-muted small mt-1">
+                                Borehole Reference: <strong class="text-dark">{{ result.details['Borehole ID'] }}</strong>
+                            </div>
+                        </div>
+                        
+                        <!-- Searched Coordinates Badge -->
+                        <div class="coord-box">
+                            <div class="text-uppercase small text-muted fw-bold">Input Coordinates</div>
+                            <div class="text-dark fw-bold">
+                                {{ request.form.get('latitude') }}° N, {{ request.form.get('longitude') }}° E
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LINE-BY-LINE SOIL DATA REPORT -->
+                <h5 class="text-dark mb-3 px-2">Geotechnical Parameters</h5>
+                <div class="table-responsive">
+                    <table class="report-table">
+                        <tbody>
+                            {% for key, value in result.details.items() %}
+                                <!-- Skip Location and Borehole ID as they are already displayed on top -->
+                                {% if key not in ['Location (Chennai)', 'Borehole ID', 'Latitude', 'Longitude'] %}
+                                <tr>
+                                    <td class="param-name">{{ key }}</td>
+                                    <td class="param-value">{{ value }}</td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                            <tr>
+                                <td class="param-name">Nearest Dataset Coordinates</td>
+                                <td class="param-value">{{ result.matched_lat }}, {{ result.matched_lng }} (~{{ result.distance_km }} km distance)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
 </body>
 </html>
