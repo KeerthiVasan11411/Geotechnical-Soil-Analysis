@@ -1,6 +1,6 @@
-Flask
+flask
 pandas
-numpy
-scipy
 openpyxl
+scipy
+numpy
 gunicorn
