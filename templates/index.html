@@ -38,6 +38,15 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
+        /* Fixed Alignment for Form Labels */
+        .form-label-custom {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 42px; /* Equalizes label heights across all screen sizes */
+            margin-bottom: 8px;
+        }
+
         /* Inverted Black Button */
         .btn-custom {
             background: #0f172a;
@@ -147,13 +156,19 @@
             <div class="card card-custom p-4">
                 <form method="POST">
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-dark small fw-bold">Latitude (12.7836 to 13.1693)</label>
-                            <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" required>
+                        <div class="col-6">
+                            <div class="form-label-custom">
+                                <label class="form-label text-dark small fw-bold mb-0">Latitude</label>
+                                <span class="text-secondary style-range" style="font-size: 0.75rem;">(12.7836 to 13.1693)</span>
+                            </div>
+                            <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" value="{{ request.form.get('latitude', '') }}" required>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-dark small fw-bold">Longitude (80.0955 to 80.2977)</label>
-                            <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" required>
+                        <div class="col-6">
+                            <div class="form-label-custom">
+                                <label class="form-label text-dark small fw-bold mb-0">Longitude</label>
+                                <span class="text-secondary style-range" style="font-size: 0.75rem;">(80.0955 to 80.2977)</span>
+                            </div>
+                            <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" value="{{ request.form.get('longitude', '') }}" required>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-custom w-100 mt-4">Analyze Soil Parameters</button>
