@@ -116,6 +116,12 @@
             background-color: rgba(15, 23, 42, 0.02);
         }
 
+        .report-table tr.highlight-row {
+            background-color: #f1f5f9;
+            border-top: 2px solid #0f172a;
+            border-bottom: 2px solid #0f172a;
+        }
+
         .report-table td.param-name {
             font-weight: 500;
             color: var(--text-muted);
@@ -155,14 +161,14 @@
                         <div class="col-6">
                             <div class="form-label-custom">
                                 <label class="form-label text-dark small fw-bold mb-0">Latitude</label>
-                                <span class="text-secondary" style="font-size: 0.75rem;">(12.7851 to 13.1678)</span>
+                                <span class="text-secondary" style="font-size: 0.75rem;">(12.7817 to 13.174)</span>
                             </div>
                             <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" value="{{ request.form.get('latitude', '') }}" required>
                         </div>
                         <div class="col-6">
                             <div class="form-label-custom">
                                 <label class="form-label text-dark small fw-bold mb-0">Longitude</label>
-                                <span class="text-secondary" style="font-size: 0.75rem;">(80.0975 to 80.2957)</span>
+                                <span class="text-secondary" style="font-size: 0.75rem;">(80.094 to 80.301)</span>
                             </div>
                             <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" value="{{ request.form.get('longitude', '') }}" required>
                         </div>
@@ -197,6 +203,9 @@
                     <div class="text-muted small mt-1">
                         Borehole Reference ID: <strong class="text-dark">{{ result.details['Borehole Reference'] }}</strong>
                     </div>
+                    <div class="text-muted small mt-1">
+                        Nearest Dataset Coordinates: <strong class="text-dark">{{ result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest Dataset Longitude'] }}</strong>
+                    </div>
                 </div>
 
                 <!-- Map Visualization Pin -->
@@ -209,19 +218,28 @@
                     </iframe>
                 </div>
 
-                <!-- Parameters Table -->
+                <!-- Parameters Table with Recommended Foundation at the bottom -->
                 <h5 class="text-dark mb-3 px-2 fw-bold">Geotechnical Soil Parameters</h5>
                 <div class="table-responsive">
                     <table class="report-table">
                         <tbody>
+                            <!-- Render all parameters except Recommended Foundation first -->
                             {% for key, value in result.details.items() %}
-                                {% if key not in ['Locality Place', 'Borehole Reference'] %}
+                                {% if key not in ['Locality Place', 'Borehole Reference', 'Nearest Dataset Latitude', 'Nearest Dataset Longitude', 'Recommended Foundation'] %}
                                 <tr>
                                     <td class="param-name">{{ key }}</td>
                                     <td class="param-value">{{ value }}</td>
                                 </tr>
                                 {% endif %}
                             {% endfor %}
+
+                            <!-- Render Recommended Foundation strictly last as final result -->
+                            {% if 'Recommended Foundation' in result.details %}
+                            <tr class="highlight-row">
+                                <td class="param-name text-dark fw-bold">Recommended Foundation</td>
+                                <td class="param-value text-dark fs-6">{{ result.details['Recommended Foundation'] }}</td>
+                            </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
