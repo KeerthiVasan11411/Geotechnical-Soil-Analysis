@@ -25,23 +25,19 @@ df = pd.read_excel(DATASET_PATH)
 LAT_MIN, LAT_MAX = 12.7851, 13.1678
 LNG_MIN, LNG_MAX = 80.0975, 80.2957
 
-# Pre-calculate geographic center points for each dataset locality
-locality_centers = df.groupby('Location (Chennai)')[['Latitude', 'Longitude']].mean().reset_index()
-
-# Build Spatial KDTree across all 500,000 borehole points
+# Build KDTree for sub-millisecond nearest spatial lookup
 coords = df[['Latitude', 'Longitude']].values
 tree = cKDTree(coords)
 
 ignore_cols = {'Borehole ID', 'Location (Chennai)', 'Latitude', 'Longitude', 'Soil Type', 'Recommended Foundation'}
 numeric_cols = [c for c in df.columns if c not in ignore_cols and pd.api.types.is_numeric_dtype(df[c])]
 
-def get_precise_locality(lat, lng):
-    """Finds the dataset area whose center is geographically closest to input coordinates."""
-    lats = locality_centers['Latitude'].values
-    lngs = locality_centers['Longitude'].values
-    dists = np.sqrt((lats - lat)**2 + (lngs - lng)**2)
-    closest_idx = np.argmin(dists)
-    return locality_centers.iloc[closest_idx]['Location (Chennai)']
+def haversine(lat1, lon1, lat2, lon2):
+    R = 6371.0
+    dlat = np.radians(lat2 - lat1)
+    dlon = np.radians(lon2 - lon1)
+    a = np.sin(dlat / 2)**2 + np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) * np.sin(dlon / 2)**2
+    return R * (2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a)))
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -53,18 +49,20 @@ def index():
             user_lat = float(request.form.get('latitude'))
             user_lng = float(request.form.get('longitude'))
 
-            # Bounds Validation
+            # Bounds Check
             if not (LAT_MIN <= user_lat <= LAT_MAX and LNG_MIN <= user_lng <= LNG_MAX):
                 error_msg = "The given location is out of chennai"
             else:
-                # 1. Map input coordinates directly to closest dataset locality area
-                locality_name = get_precise_locality(user_lat, user_lng)
-
-                # 2. Query spatial KDTree for 5 nearest borehole samples
+                # 1. Query nearest 5 neighbors for continuous value estimation
                 distances, indices = tree.query([user_lat, user_lng], k=5)
-                nearest_row = df.iloc[indices[0]]
 
-                # Interpolate parameters
+                # Closest exact record from dataset
+                nearest_row = df.iloc[indices[0]]
+                
+                # Fetch exact location name DIRECTLY from dataset
+                dataset_location_name = nearest_row['Location (Chennai)']
+
+                # Interpolate numeric geotechnical parameters
                 if distances[0] < 1e-7:
                     pred_series = nearest_row[numeric_cols]
                 else:
@@ -72,10 +70,10 @@ def index():
                     weights /= np.sum(weights)
                     pred_series = (df.iloc[indices][numeric_cols].values.T @ weights)
 
-                # Prepare details without showing numerical coordinates
+                # Build precise dictionary report preserving dataset names
                 details = {
-                    'Locality Place': locality_name,
-                    'Borehole Reference': nearest_row['Borehole ID'],
+                    'Location (Chennai)': dataset_location_name,
+                    'Borehole ID': nearest_row['Borehole ID'],
                     'Soil Type': nearest_row.get('Soil Type', 'N/A')
                 }
 
@@ -91,10 +89,15 @@ def index():
                 if 'Recommended Foundation' in df.columns:
                     details['Recommended Foundation'] = nearest_row['Recommended Foundation']
 
+                dist_km = haversine(user_lat, user_lng, nearest_row['Latitude'], nearest_row['Longitude'])
+
                 result = {
                     'details': details,
                     'user_lat': user_lat,
-                    'user_lng': user_lng
+                    'user_lng': user_lng,
+                    'matched_lat': round(nearest_row['Latitude'], 6),
+                    'matched_lng': round(nearest_row['Longitude'], 6),
+                    'distance_km': round(dist_km, 3)
                 }
 
         except ValueError:
