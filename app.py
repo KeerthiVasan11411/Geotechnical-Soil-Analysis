@@ -1,41 +1,59 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
+import os
 
 app = Flask(__name__)
 
-# Load Chennai Geotechnical Dataset
-df = pd.read_excel("Chennai_Geotechnical_Dataset.xlsx")
+# Load dataset once at startup
+DATASET_PATH = 'Chennai_Geotechnical_Dataset_Completed_No_Missing_Data.xlsx'
 
-# Define Chennai Bounding Box Limits
-LAT_MIN, LAT_MAX = 12.7817, 13.1740
-LON_MIN, LON_MAX = 80.0940, 80.3010
+if os.path.exists(DATASET_PATH):
+    df = pd.read_excel(DATASET_PATH)
+else:
+    df = pd.DataFrame()
+
+# Defined Chennai Bounds
+LAT_MIN, LAT_MAX = 12.7836, 13.1693
+LNG_MIN, LNG_MAX = 80.09551, 80.2977
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
-    error_message = None
+    error_msg = None
 
     if request.method == 'POST':
         try:
-            user_lat = float(request.form['latitude'])
-            user_lon = float(request.form['longitude'])
+            user_lat = float(request.form.get('latitude'))
+            user_lng = float(request.form.get('longitude'))
 
-            # Check if input is within Chennai boundary
-            if not (LAT_MIN <= user_lat <= LAT_MAX and LON_MIN <= user_lon <= LON_MAX):
-                error_message = "The given location is out of the chennai"
+            # Check if input is within valid Chennai bounds
+            if not (LAT_MIN <= user_lat <= LAT_MAX and LNG_MIN <= user_lng <= LNG_MAX):
+                error_msg = "The given location is out of chennai"
             else:
-                # Calculate Euclidean distance to find nearest borehole record
-                distances = np.sqrt((df['Latitude'] - user_lat)**2 + (df['Longitude'] - user_lon)**2)
-                nearest_idx = distances.idxmin()
-                
-                # Extract soil details as dictionary
-                result = df.loc[nearest_idx].fillna("N/A").to_dict()
+                if not df.empty:
+                    # Calculate Euclidean distance to all data points
+                    distances = np.sqrt(
+                        (df['Latitude'] - user_lat)**2 + 
+                        (df['Longitude'] - user_lng)**2
+                    )
+                    nearest_idx = distances.idxmin()
+                    nearest_row = df.loc[nearest_idx].to_dict()
+                    
+                    # Store result details
+                    result = {
+                        'matched_lat': nearest_row.get('Latitude'),
+                        'matched_lng': nearest_row.get('Longitude'),
+                        'distance_km': round(distances[nearest_idx] * 111, 3), # Approximate conversion to km
+                        'details': nearest_row
+                    }
+                else:
+                    error_msg = "Dataset file not found or empty on server."
 
-        except Exception as e:
-            error_message = f"Invalid input format: {e}"
+        except (ValueError, TypeError):
+            error_msg = "Please enter valid numerical coordinates."
 
-    return render_template('index.html', result=result, error_message=error_message)
+    return render_template('index.html', result=result, error_msg=error_msg)
 
 if __name__ == '__main__':
     app.run(debug=True)
