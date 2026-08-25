@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chennai Geotechnical Soil Analysis System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --card-inner: #f1f5f9;
-            --accent-black: #0f172a;
+            --accent-dark: #0f172a;
             --border-color: #e2e8f0;
             --border-dark: #cbd5e1;
             --text-muted: #64748b;
@@ -20,40 +20,38 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg-color);
-            color: var(--accent-black);
+            color: var(--accent-dark);
             min-height: 100vh;
             padding: 40px 0;
         }
 
         .hero-title {
-            font-weight: 700;
+            font-weight: 800;
             color: #0f172a;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
         }
 
         .card-custom {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
         }
 
-        /* Fixed Alignment for Form Labels */
         .form-label-custom {
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            min-height: 42px; /* Equalizes label heights across all screen sizes */
+            min-height: 44px;
             margin-bottom: 8px;
         }
 
-        /* Inverted Black Button */
         .btn-custom {
             background: #0f172a;
             color: #ffffff;
             border: 1px solid #0f172a;
-            border-radius: 10px;
-            padding: 12px 24px;
+            border-radius: 12px;
+            padding: 14px 24px;
             font-weight: 700;
             transition: all 0.2s ease;
         }
@@ -61,47 +59,46 @@
         .btn-custom:hover {
             background: #1e293b;
             color: #ffffff;
-            border-color: #1e293b;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
 
         .form-control-custom {
             background: #ffffff;
             border: 1px solid var(--border-dark);
             color: #0f172a;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 12px 16px;
+            font-weight: 500;
         }
 
-        .form-control-custom:focus {
-            background: #ffffff;
-            border-color: var(--accent-black);
-            color: #0f172a;
-            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.15);
-        }
-
-        /* Top Location Card */
         .location-header-card {
             background: var(--card-inner);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
+            border-radius: 16px;
             padding: 24px;
         }
 
         .location-title {
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             color: #0f172a;
         }
 
-        .coord-box {
-            background: #ffffff;
-            border: 1px solid var(--border-dark);
-            border-radius: 10px;
-            padding: 10px 16px;
+        .map-frame-container {
+            width: 100%;
+            height: 350px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
         }
 
-        /* Line-by-Line Report Table */
+        .map-frame-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .report-table {
             width: 100%;
             margin-bottom: 0;
@@ -110,13 +107,13 @@
 
         .report-table th, 
         .report-table td {
-            padding: 14px 20px;
+            padding: 15px 22px;
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
         }
 
         .report-table tr:hover {
-            background-color: rgba(0, 0, 0, 0.02);
+            background-color: rgba(15, 23, 42, 0.02);
         }
 
         .report-table td.param-name {
@@ -126,31 +123,30 @@
         }
 
         .report-table td.param-value {
-            font-weight: 600;
+            font-weight: 700;
             color: #0f172a;
         }
 
-        /* Out of Bounds Error Message */
         .alert-out-of-bounds {
             background: #ffffff;
-            border: 1px solid #0f172a;
+            border: 1.5px solid #0f172a;
             color: #0f172a;
-            border-radius: 12px;
-            padding: 16px;
-            font-weight: 600;
+            border-radius: 14px;
+            padding: 18px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header -->
     <div class="text-center mb-5">
         <h1 class="hero-title display-5">Chennai Geotechnical Soil Analysis</h1>
-        <p class="text-secondary">Spatial Coordinate Parameter Locator</p>
+        <p class="text-secondary fw-semibold">Spatial Coordinate Parameter Locator & Estimator</p>
     </div>
 
-    <!-- Input Form Card -->
+    <!-- Form Input Card -->
     <div class="row justify-content-center mb-5">
         <div class="col-md-8 col-lg-6">
             <div class="card card-custom p-4">
@@ -159,14 +155,14 @@
                         <div class="col-6">
                             <div class="form-label-custom">
                                 <label class="form-label text-dark small fw-bold mb-0">Latitude</label>
-                                <span class="text-secondary style-range" style="font-size: 0.75rem;">(12.7836 to 13.1693)</span>
+                                <span class="text-secondary" style="font-size: 0.75rem;">(12.7851 to 13.1678)</span>
                             </div>
                             <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" value="{{ request.form.get('latitude', '') }}" required>
                         </div>
                         <div class="col-6">
                             <div class="form-label-custom">
                                 <label class="form-label text-dark small fw-bold mb-0">Longitude</label>
-                                <span class="text-secondary style-range" style="font-size: 0.75rem;">(80.0955 to 80.2977)</span>
+                                <span class="text-secondary" style="font-size: 0.75rem;">(80.0975 to 80.2957)</span>
                             </div>
                             <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" value="{{ request.form.get('longitude', '') }}" required>
                         </div>
@@ -188,51 +184,44 @@
     </div>
     {% endif %}
 
-    <!-- Report Section -->
+    <!-- Soil Report Section -->
     {% if result %}
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
             <div class="card card-custom p-4">
                 
-                <!-- TOP CARD: Location & Searched Coordinates -->
+                <!-- Locality Place Name Banner -->
                 <div class="location-header-card mb-4">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                        <div>
-                            <span class="text-uppercase small fw-bold text-secondary">Matched Region</span>
-                            <div class="location-title">{{ result.details['Location (Chennai)'] }}</div>
-                            <div class="text-muted small mt-1">
-                                Borehole Reference: <strong class="text-dark">{{ result.details['Borehole ID'] }}</strong>
-                            </div>
-                        </div>
-                        
-                        <!-- Searched Coordinates Badge -->
-                        <div class="coord-box">
-                            <div class="text-uppercase small text-muted fw-bold">Input Coordinates</div>
-                            <div class="text-dark fw-bold">
-                                {{ request.form.get('latitude') }}° N, {{ request.form.get('longitude') }}° E
-                            </div>
-                        </div>
+                    <span class="text-uppercase small fw-bold text-secondary">Locality Place Name</span>
+                    <div class="location-title">{{ result.details['Locality Place'] }}</div>
+                    <div class="text-muted small mt-1">
+                        Borehole Reference ID: <strong class="text-dark">{{ result.details['Borehole Reference'] }}</strong>
                     </div>
                 </div>
 
-                <!-- LINE-BY-LINE SOIL DATA REPORT -->
-                <h5 class="text-dark mb-3 px-2">Geotechnical Parameters</h5>
+                <!-- Map Visualization Pin -->
+                <h5 class="text-dark mb-3 px-2 fw-bold">Map Location Visualization</h5>
+                <div class="map-frame-container">
+                    <iframe 
+                        src="https://maps.google.com/maps?q={{ result.user_lat }},{{ result.user_lng }}&z=15&output=embed" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- Parameters Table -->
+                <h5 class="text-dark mb-3 px-2 fw-bold">Geotechnical Soil Parameters</h5>
                 <div class="table-responsive">
                     <table class="report-table">
                         <tbody>
                             {% for key, value in result.details.items() %}
-                                <!-- Skip Location and Borehole ID as they are already displayed on top -->
-                                {% if key not in ['Location (Chennai)', 'Borehole ID', 'Latitude', 'Longitude'] %}
+                                {% if key not in ['Locality Place', 'Borehole Reference'] %}
                                 <tr>
                                     <td class="param-name">{{ key }}</td>
                                     <td class="param-value">{{ value }}</td>
                                 </tr>
                                 {% endif %}
                             {% endfor %}
-                            <tr>
-                                <td class="param-name">Nearest Dataset Coordinates</td>
-                                <td class="param-value">{{ result.matched_lat }}, {{ result.matched_lng }} (~{{ result.distance_km }} km distance)</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
