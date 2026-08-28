@@ -3,253 +3,1353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chennai Geotechnical Soil Analysis System</title>
+    <title>Chennai Geotechnical Soil Analysis System | AI Spatial Engine</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --card-inner: #f1f5f9;
-            --accent-dark: #0f172a;
-            --border-color: #e2e8f0;
-            --border-dark: #cbd5e1;
+            --bg-primary: #0b0f19;
+            --bg-secondary: #111827;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --border-glow: rgba(59, 130, 246, 0.3);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-rose: #f43f5e;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
             --text-muted: #64748b;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Grotesk', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--accent-dark);
+            font-family: var(--font-main);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 40px 0;
+            overflow-x: hidden;
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        /* Canvas Particle Background */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Ambient Glowing Orbs */
+        .ambient-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: -1;
+            animation: floatGlow 20s infinite alternate ease-in-out;
+        }
+        .glow-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, #3b82f6, #06b6d4);
+        }
+        .glow-2 {
+            bottom: 10%;
+            right: -100px;
+            background: radial-gradient(circle, #10b981, #3b82f6);
+            animation-delay: -7s;
+        }
+        .glow-3 {
+            top: 40%;
+            left: 40%;
+            background: radial-gradient(circle, #8b5cf6, #3b82f6);
+            opacity: 0.08;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.1); }
+            100% { transform: translate(-40px, 80px) scale(0.95); }
+        }
+
+        /* Hero Header */
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: #34d399;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+            margin-bottom: 20px;
+            animation: badgePulse 3s infinite ease-in-out;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+            animation: dotPing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes dotPing {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.3); }
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { border-color: rgba(16, 185, 129, 0.35); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+            50% { border-color: rgba(16, 185, 129, 0.7); box-shadow: 0 0 25px rgba(16, 185, 129, 0.25); }
         }
 
         .hero-title {
+            font-size: 2.8rem;
             font-weight: 800;
-            color: #0f172a;
-            letter-spacing: -0.8px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 20%, #cbd5e1 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .card-custom {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05);
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
 
-        .form-label-custom {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            min-height: 44px;
-            margin-bottom: 8px;
+        /* Glassmorphism Card System */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-custom {
-            background: #0f172a;
-            color: #ffffff;
-            border: 1px solid #0f172a;
-            border-radius: 12px;
-            padding: 14px 24px;
+        .glass-card:hover {
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.12);
+        }
+
+        /* Animated Border Beam */
+        .border-beam {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-blue), transparent);
+            animation: beamTravel 4s linear infinite;
+        }
+
+        @keyframes beamTravel {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Preset Chips */
+        .preset-section-title {
+            font-size: 0.8rem;
             font-weight: 700;
-            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .btn-custom:hover {
-            background: #1e293b;
-            color: #ffffff;
+        .preset-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .preset-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            color: #cbd5e1;
+            padding: 7px 14px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        .preset-chip:hover {
+            background: rgba(59, 130, 246, 0.18);
+            border-color: rgba(96, 165, 250, 0.5);
+            color: #60a5fa;
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+
+        .preset-chip.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(6, 182, 212, 0.35));
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+        }
+
+        /* Form Inputs */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .input-icon-badge {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-cyan);
+            font-size: 1rem;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
 
         .form-control-custom {
-            background: #ffffff;
-            border: 1px solid var(--border-dark);
-            color: #0f172a;
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-weight: 500;
-        }
-
-        .location-header-card {
-            background: var(--card-inner);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-        }
-
-        .location-title {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .map-frame-container {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            border-radius: 14px;
+            padding: 14px 16px 14px 44px;
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             width: 100%;
-            height: 350px;
+        }
+
+        .form-control-custom:focus {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15), 0 0 20px rgba(56, 189, 248, 0.2);
+            color: #ffffff;
+            outline: none;
+        }
+
+        .form-control-custom.input-highlight {
+            animation: fieldGlow 0.8s ease-in-out;
+        }
+
+        @keyframes fieldGlow {
+            0%, 100% { border-color: rgba(255, 255, 255, 0.12); box-shadow: none; }
+            50% { border-color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+        }
+
+        .form-control-custom::placeholder {
+            color: #475569;
+            font-family: var(--font-main);
+            font-weight: 400;
+        }
+
+        .input-subtext {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* GPS Location High Accuracy Button */
+        .btn-gps-accuracy {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(59, 130, 246, 0.18));
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #38bdf8;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 22px;
+        }
+
+        .btn-gps-accuracy:hover {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(59, 130, 246, 0.3));
+            border-color: #38bdf8;
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Animated Submit Button */
+        .btn-analyze {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #0d9488 100%);
+            background-size: 200% 200%;
+            color: #ffffff;
+            border: none;
             border-radius: 16px;
+            padding: 16px 28px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            width: 100%;
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
-            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+            transition: all 0.35s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-analyze:hover {
+            background-position: 100% 100%;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.5), 0 0 25px rgba(13, 148, 136, 0.3);
+        }
+
+        /* Results Container Animations */
+        .results-section {
+            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Locality Header Hero Card */
+        .locality-header-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 26px;
+            position: relative;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .locality-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .meta-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .meta-tag strong {
+            color: #38bdf8;
+            font-family: var(--font-mono);
+        }
+
+        /* Key Metrics Grid */
+        .metric-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+
+        .metric-card.hero-recommendation {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 1.5px solid rgba(96, 165, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+        }
+
+        .metric-icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+
+        .icon-blue { background: rgba(59, 130, 246, 0.18); color: #60a5fa; }
+        .icon-emerald { background: rgba(16, 185, 129, 0.18); color: #34d399; }
+        .icon-amber { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+        .icon-purple { background: rgba(139, 92, 246, 0.18); color: #a78bfa; }
+
+        .metric-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 1.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .metric-unit {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-family: var(--font-main);
+        }
+
+        /* Soil Strata Borehole Visualizer */
+        .strata-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 22px;
             margin-bottom: 24px;
         }
 
-        .map-frame-container iframe {
+        .strata-column {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+        }
+
+        .strata-layer {
+            position: relative;
+            width: 100%;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .strata-topsoil {
+            height: 25%;
+            background: linear-gradient(90deg, #475569, #334155);
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            color: #e2e8f0;
+        }
+
+        .strata-target {
+            height: 50%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .strata-deep {
+            height: 25%;
+            background: linear-gradient(90deg, #1e293b, #0f172a);
+            color: #94a3b8;
+        }
+
+        .strata-water-marker {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 45%;
+            height: 2px;
+            background: #06b6d4;
+            box-shadow: 0 0 10px #06b6d4;
+            z-index: 2;
+        }
+
+        .strata-water-label {
+            position: absolute;
+            right: 12px;
+            top: -10px;
+            background: #0891b2;
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* Map Container in Results (Google Maps) */
+        .map-frame-wrapper {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            margin-bottom: 24px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .map-frame-wrapper iframe {
             width: 100%;
             height: 100%;
             border: 0;
         }
 
+        /* Geotechnical Parameters Table */
+        .report-table-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
         .report-table {
             width: 100%;
             margin-bottom: 0;
-            color: #0f172a;
+            color: #ffffff;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
-        .report-table th, 
+        .report-table th {
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 14px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         .report-table td {
-            padding: 15px 22px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 14px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             vertical-align: middle;
         }
 
-        .report-table tr:hover {
-            background-color: rgba(15, 23, 42, 0.02);
+        .report-table tr:hover td {
+            background: rgba(59, 130, 246, 0.06);
         }
 
-        .report-table tr.highlight-row {
-            background-color: #f1f5f9;
-            border-top: 2px solid #0f172a;
-            border-bottom: 2px solid #0f172a;
-        }
-
-        .report-table td.param-name {
+        .param-name {
+            color: #cbd5e1;
             font-weight: 500;
-            color: var(--text-muted);
-            width: 45%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .report-table td.param-value {
-            font-weight: 700;
-            color: #0f172a;
+        .param-name i {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            width: 16px;
         }
 
-        .alert-out-of-bounds {
-            background: #ffffff;
-            border: 1.5px solid #0f172a;
-            color: #0f172a;
-            border-radius: 14px;
-            padding: 18px;
+        .param-value {
+            font-family: var(--font-mono);
             font-weight: 700;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            color: #ffffff;
+            text-align: right;
+        }
+
+        .param-bar-cell {
+            width: 30%;
+            padding-right: 22px !important;
+        }
+
+        .mini-progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .mini-progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+        }
+
+        .highlight-foundation-row {
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.18), rgba(13, 148, 136, 0.18)) !important;
+            border-top: 1.5px solid rgba(59, 130, 246, 0.4);
+            border-bottom: 1.5px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .highlight-foundation-row td {
+            color: #ffffff !important;
+            font-size: 1.05rem;
+        }
+
+        /* Action Toolbar */
+        .action-toolbar {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .btn-secondary-action {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #cbd5e1;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary-action:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Scanning Spinner */
+        .scanning-loader {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .spinner-radar {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast */
+        #toastNotice {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            border: 1px solid #38bdf8;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 99999;
+            max-width: 420px;
+        }
+
+        #toastNotice.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="text-center mb-5">
-        <h1 class="hero-title display-5">Chennai Geotechnical Soil Analysis</h1>
-        <p class="text-secondary fw-semibold">Spatial Coordinate Parameter Locator & Estimator</p>
-    </div>
+    <!-- Interactive Canvas Background -->
+    <canvas id="bgCanvas"></canvas>
 
-    <!-- Form Input Card -->
-    <div class="row justify-content-center mb-5">
-        <div class="col-md-8 col-lg-6">
-            <div class="card card-custom p-4">
-                <form method="POST">
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="form-label-custom">
-                                <label class="form-label text-dark small fw-bold mb-0">Latitude</label>
-                                <span class="text-secondary" style="font-size: 0.75rem;">(12.7817 to 13.174)</span>
-                            </div>
-                            <input type="number" step="any" class="form-control form-control-custom" name="latitude" placeholder="e.g. 13.0096" value="{{ request.form.get('latitude', '') }}" required>
+    <!-- Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="container py-4">
+
+        <!-- Top Header Hero -->
+        <div class="text-center my-4">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                <span>High-Precision KDTree Geotechnical Spatial Engine Active</span>
+            </div>
+            <h1 class="hero-title">Chennai Soil Stratum & Parameter AI</h1>
+            <p class="hero-subtitle">
+                Sub-meter accuracy geotechnical borehole interpolation, Google Maps location resolution, and foundation engineering recommendations.
+            </p>
+        </div>
+
+        <!-- Coordinates Input Card -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-7 col-md-9">
+                <div class="glass-card p-4 p-md-5">
+                    <div class="border-beam"></div>
+
+                    <!-- Instant High-Accuracy GPS Locate Button -->
+                    <button type="button" class="btn-gps-accuracy" onclick="getHighAccuracyGPS()">
+                        <i class="fa-solid fa-location-crosshairs fs-5"></i>
+                        <span id="gpsBtnText">Detect My Exact Current GPS Location</span>
+                    </button>
+
+                    <!-- Quick Preset Chips -->
+                    <div class="preset-section-title">
+                        <i class="fa-solid fa-city text-cyan"></i>
+                        <span>Select a Chennai Sector:</span>
+                    </div>
+                    <div class="preset-grid">
+                        <div class="preset-chip active" onclick="setSector(13.006721, 80.220596, this, 'Guindy')">
+                            <i class="fa-solid fa-building-columns"></i> Guindy
                         </div>
-                        <div class="col-6">
-                            <div class="form-label-custom">
-                                <label class="form-label text-dark small fw-bold mb-0">Longitude</label>
-                                <span class="text-secondary" style="font-size: 0.75rem;">(80.094 to 80.301)</span>
-                            </div>
-                            <input type="number" step="any" class="form-control form-control-custom" name="longitude" placeholder="e.g. 80.2554" value="{{ request.form.get('longitude', '') }}" required>
+                        <div class="preset-chip" onclick="setSector(13.041828, 80.234116, this, 'T Nagar')">
+                            <i class="fa-solid fa-shop"></i> T. Nagar
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.084997, 80.210054, this, 'Anna Nagar')">
+                            <i class="fa-solid fa-tree"></i> Anna Nagar
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.006681, 80.257192, this, 'Adyar')">
+                            <i class="fa-solid fa-water"></i> Adyar
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.033948, 80.267612, this, 'Mylapore')">
+                            <i class="fa-solid fa-place-of-worship"></i> Mylapore
+                        </div>
+                        <div class="preset-chip" onclick="setSector(12.981494, 80.217961, this, 'Velachery')">
+                            <i class="fa-solid fa-water-ladder"></i> Velachery
+                        </div>
+                        <div class="preset-chip" onclick="setSector(12.900968, 80.227822, this, 'Sholinganallur / OMR')">
+                            <i class="fa-solid fa-laptop-code"></i> OMR / Sholinganallur
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.000332, 80.266759, this, 'Besant Nagar')">
+                            <i class="fa-solid fa-umbrella-beach"></i> Besant Nagar
+                        </div>
+                        <div class="preset-chip" onclick="setSector(12.924902, 80.100057, this, 'Tambaram')">
+                            <i class="fa-solid fa-train"></i> Tambaram
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.035718, 80.156471, this, 'Porur')">
+                            <i class="fa-solid fa-road"></i> Porur
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.114278, 80.154795, this, 'Ambattur')">
+                            <i class="fa-solid fa-industry"></i> Ambattur
+                        </div>
+                        <div class="preset-chip" onclick="setSector(13.115154, 80.293130, this, 'Royapuram')">
+                            <i class="fa-solid fa-anchor"></i> Royapuram
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-custom w-100 mt-4">Analyze Soil Parameters</button>
-                </form>
+
+                    <!-- Coordinates Form -->
+                    <form method="POST" id="analysisForm" onsubmit="handleFormSubmit(event)">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label text-light small fw-bold mb-1">
+                                    <i class="fa-solid fa-compass text-info me-1"></i> Latitude (6 Decimals)
+                                </label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-map-pin input-icon-badge"></i>
+                                    <input 
+                                        type="number" 
+                                        step="any" 
+                                        class="form-control form-control-custom" 
+                                        id="latInput"
+                                        name="latitude" 
+                                        placeholder="e.g. 13.006721" 
+                                        value="{{ request.form.get('latitude', '13.006721') }}" 
+                                        required
+                                    >
+                                </div>
+                                <div class="input-subtext">
+                                    <span>Greater Chennai Bounds:</span>
+                                    <span class="text-info font-monospace">12.7500 — 13.2500</span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label text-light small fw-bold mb-1">
+                                    <i class="fa-solid fa-compass-drafting text-info me-1"></i> Longitude (6 Decimals)
+                                </label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-globe input-icon-badge"></i>
+                                    <input 
+                                        type="number" 
+                                        step="any" 
+                                        class="form-control form-control-custom" 
+                                        id="lngInput"
+                                        name="longitude" 
+                                        placeholder="e.g. 80.220596" 
+                                        value="{{ request.form.get('longitude', '80.220596') }}" 
+                                        required
+                                    >
+                                </div>
+                                <div class="input-subtext">
+                                    <span>Greater Chennai Bounds:</span>
+                                    <span class="text-info font-monospace">80.0000 — 80.3500</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-analyze mt-4" id="submitBtn">
+                            <span class="btn-text">
+                                <i class="fa-solid fa-layer-group btn-icon me-2"></i> Compute Geotechnical Soil Analysis
+                            </span>
+                            <div class="scanning-loader" id="submitLoader">
+                                <div class="spinner-radar"></div>
+                                <span>Interpolating Subsurface Strata...</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Out of Bounds Error Message -->
-    {% if error_msg %}
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-8 text-center">
-            <div class="alert-out-of-bounds">
-                ⚠️ {{ error_msg }}
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Soil Report Section -->
-    {% if result %}
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
-            <div class="card card-custom p-4">
-                
-                <!-- Locality Place Name Banner -->
-                <div class="location-header-card mb-4">
-                    <span class="text-uppercase small fw-bold text-secondary">Locality Place Name</span>
-                    <div class="location-title">{{ result.details['Locality Place'] }}</div>
-                    <div class="text-muted small mt-1">
-                        Borehole Reference ID: <strong class="text-dark">{{ result.details['Borehole Reference'] }}</strong>
+        <!-- Error Message Card -->
+        {% if error_msg %}
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-7 col-md-9">
+                <div class="alert alert-danger bg-danger bg-opacity-10 border border-danger border-opacity-25 text-danger rounded-4 p-3 d-flex align-items-center gap-3">
+                    <i class="fa-solid fa-triangle-exclamation fs-3"></i>
+                    <div>
+                        <div class="fw-bold">Spatial Coordinate Restriction</div>
+                        <div class="small">{{ error_msg }}</div>
                     </div>
-                    <div class="text-muted small mt-1">
-                        Nearest Dataset Coordinates: <strong class="text-dark">{{ result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest Dataset Longitude'] }}</strong>
-                    </div>
                 </div>
-
-                <!-- Map Visualization Pin -->
-                <h5 class="text-dark mb-3 px-2 fw-bold">Map Location Visualization</h5>
-                <div class="map-frame-container">
-                    <iframe 
-                        src="https://maps.google.com/maps?q={{ result.user_lat }},{{ result.user_lng }}&z=15&output=embed" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
-                </div>
-
-                <!-- Parameters Table with Recommended Foundation at the bottom -->
-                <h5 class="text-dark mb-3 px-2 fw-bold">Geotechnical Soil Parameters</h5>
-                <div class="table-responsive">
-                    <table class="report-table">
-                        <tbody>
-                            <!-- Render all parameters except Recommended Foundation first -->
-                            {% for key, value in result.details.items() %}
-                                {% if key not in ['Locality Place', 'Borehole Reference', 'Nearest Dataset Latitude', 'Nearest Dataset Longitude', 'Recommended Foundation'] %}
-                                <tr>
-                                    <td class="param-name">{{ key }}</td>
-                                    <td class="param-value">{{ value }}</td>
-                                </tr>
-                                {% endif %}
-                            {% endfor %}
-
-                            <!-- Render Recommended Foundation strictly last as final result -->
-                            {% if 'Recommended Foundation' in result.details %}
-                            <tr class="highlight-row">
-                                <td class="param-name text-dark fw-bold">Recommended Foundation</td>
-                                <td class="param-value text-dark fs-6">{{ result.details['Recommended Foundation'] }}</td>
-                            </tr>
-                            {% endif %}
-                        </tbody>
-                    </table>
-                </div>
-
             </div>
         </div>
+        {% endif %}
+
+        <!-- Soil Analysis Results Section -->
+        {% if result %}
+        <div class="results-section" id="resultsSection">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+
+                    <!-- Header Locality Banner -->
+                    <div class="locality-header-card mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <span class="badge bg-primary bg-opacity-25 text-info px-3 py-1 mb-2 fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                                    <i class="fa-solid fa-location-dot me-1"></i> Area & Postal Code
+                                </span>
+                                <div class="locality-title">{{ result.details['Area & Pincode'] or result.details['Locality Place'] }}</div>
+                                <div class="d-flex flex-wrap mt-2">
+                                    <div class="meta-tag">
+                                        <i class="fa-solid fa-layer-group text-info"></i> Geotechnical Sector: <strong>{{ result.details['Locality Place'] }}</strong>
+                                    </div>
+                                    <div class="meta-tag">
+                                        <i class="fa-solid fa-bore-hole text-secondary"></i> Nearest Borehole ID: <strong>{{ result.details['Borehole Reference'] }}</strong>
+                                    </div>
+                                    <div class="meta-tag" onclick="copyCoords('{{ result.details['Nearest Dataset Latitude'] }}', '{{ result.details['Nearest Dataset Longitude'] }}')" style="cursor: pointer;" title="Click to copy">
+                                        <i class="fa-solid fa-crosshairs text-info"></i> Dataset Anchor: <strong>{{ result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest Dataset Longitude'] }}</strong> <i class="fa-regular fa-copy ms-1 small"></i>
+                                    </div>
+                                    <div class="meta-tag">
+                                        <i class="fa-solid fa-user-pin text-success"></i> Query Coordinates: <strong>{{ result.user_lat }}, {{ result.user_lng }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <button class="btn-secondary-action" onclick="window.print()">
+                                    <i class="fa-solid fa-file-pdf"></i> Export Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlighted KPI Metric Cards -->
+                    <div class="row g-3 mb-4">
+                        <!-- Recommended Foundation Hero Card -->
+                        {% if 'Recommended Foundation' in result.details %}
+                        <div class="col-md-6 col-lg-3">
+                            <div class="metric-card hero-recommendation">
+                                <div>
+                                    <div class="metric-icon-box icon-blue">
+                                        <i class="fa-solid fa-building-shield"></i>
+                                    </div>
+                                    <div class="metric-label">Foundation Rec.</div>
+                                    <div class="metric-value fs-5 text-info">{{ result.details['Recommended Foundation'] }}</div>
+                                </div>
+                                <span class="badge bg-primary bg-opacity-25 text-info mt-2">
+                                    <i class="fa-solid fa-check-double me-1"></i> Recommended
+                                </span>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Soil Classification -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="metric-card">
+                                <div>
+                                    <div class="metric-icon-box icon-amber">
+                                        <i class="fa-solid fa-mountain-sun"></i>
+                                    </div>
+                                    <div class="metric-label">Soil Classification</div>
+                                    <div class="metric-value fs-5 text-warning">{{ result.details['Soil Type'] }}</div>
+                                </div>
+                                <span class="badge bg-warning bg-opacity-10 text-warning mt-2">
+                                    <i class="fa-solid fa-layer-group me-1"></i> Primary Strata
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Safe Bearing Capacity -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="metric-card">
+                                <div>
+                                    <div class="metric-icon-box icon-emerald">
+                                        <i class="fa-solid fa-weight-hanging"></i>
+                                    </div>
+                                    <div class="metric-label">Bearing Capacity</div>
+                                    <div class="metric-value counter-value" data-target="{{ result.details.get('Bearing Capacity (kN/m²)', '0') }}">
+                                        {{ result.details.get('Bearing Capacity (kN/m²)', 'N/A') }}
+                                    </div>
+                                    <span class="metric-unit">kN/m²</span>
+                                </div>
+                                <span class="badge bg-success bg-opacity-10 text-success mt-2">
+                                    <i class="fa-solid fa-gauge-high me-1"></i> Design Load
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- SPT N-Value -->
+                        <div class="col-md-6 col-lg-3">
+                            <div class="metric-card">
+                                <div>
+                                    <div class="metric-icon-box icon-purple">
+                                        <i class="fa-solid fa-hammer"></i>
+                                    </div>
+                                    <div class="metric-label">SPT N-Value</div>
+                                    <div class="metric-value counter-value" data-target="{{ result.details.get('SPT N Value', '0') }}">
+                                        {{ result.details.get('SPT N Value', 'N/A') }}
+                                    </div>
+                                    <span class="metric-unit">Blows / 30cm</span>
+                                </div>
+                                <span class="badge bg-info bg-opacity-10 text-info mt-2">
+                                    <i class="fa-solid fa-shield-halved me-1"></i> Resistance
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Geotechnical Strata Cross-Section Visualizer -->
+                    <div class="strata-container">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="text-light fw-bold mb-0">
+                                <i class="fa-solid fa-diagram-project text-cyan me-2"></i> Subsurface Strata Cross-Section Profile
+                            </h6>
+                            <span class="text-secondary small">Interpolated Borehole Column</span>
+                        </div>
+                        <div class="strata-column">
+                            <div class="strata-layer strata-topsoil">
+                                <span><i class="fa-solid fa-seedling me-2 text-success"></i> 0.0m - Ground Surface</span>
+                                <span class="text-muted small">Topsoil</span>
+                            </div>
+                            <div class="strata-layer strata-target">
+                                <div>
+                                    <i class="fa-solid fa-cubes-stacked me-2 text-warning"></i>
+                                    <strong>{{ result.details['Soil Type'] }}</strong>
+                                    <span class="badge bg-dark bg-opacity-50 ms-2">SPT N: {{ result.details.get('SPT N Value', '-') }}</span>
+                                </div>
+                                <div class="text-info small fw-bold">Primary Foundation Strata</div>
+                            </div>
+                            <div class="strata-water-marker">
+                                <span class="strata-water-label">
+                                    <i class="fa-solid fa-water me-1"></i> Groundwater Table (~{{ result.details.get('Groundwater Level (m)', '2.5') }}m)
+                                </span>
+                            </div>
+                            <div class="strata-layer strata-deep">
+                                <span><i class="fa-solid fa-gem me-2 text-info"></i> Base Strata Baseline</span>
+                                <span class="text-muted small">Depth ~{{ result.details.get('Depth (m)', '15.0') }}m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Visualization removed per user request -->
+
+                    <!-- Comprehensive Parameters Data Table -->
+                    <div class="glass-card p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="text-light fw-bold mb-0">
+                                <i class="fa-solid fa-list-check text-cyan me-2"></i> Detailed Geotechnical Parameters
+                            </h5>
+                            <span class="badge bg-secondary bg-opacity-25 text-light px-3 py-1 font-monospace">
+                                KDTree Distance-Weighted Interpolation
+                            </span>
+                        </div>
+                        
+                        <div class="table-responsive report-table-card">
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Geotechnical Property</th>
+                                        <th class="param-bar-cell">Relative Strength Indicator</th>
+                                        <th class="text-end">Interpolated Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key, value in result.details.items() %}
+                                        {% if key not in ['Area & Pincode', 'Locality Place', 'Borehole Reference', 'Nearest Dataset Latitude', 'Nearest Dataset Longitude', 'Recommended Foundation'] %}
+                                        <tr>
+                                            <td class="param-name">
+                                                {% if 'Cohesion' in key %}
+                                                    <i class="fa-solid fa-link"></i>
+                                                {% elif 'Friction' in key %}
+                                                    <i class="fa-solid fa-compass-drafting"></i>
+                                                {% elif 'Permeability' in key %}
+                                                    <i class="fa-solid fa-droplet"></i>
+                                                {% elif 'Moisture' in key %}
+                                                    <i class="fa-solid fa-water"></i>
+                                                {% elif 'Limit' in key or 'Plasticity' in key %}
+                                                    <i class="fa-solid fa-flask-vial"></i>
+                                                {% elif 'Bearing' in key %}
+                                                    <i class="fa-solid fa-weight-hanging"></i>
+                                                {% elif 'SPT' in key %}
+                                                    <i class="fa-solid fa-hammer"></i>
+                                                {% elif 'Depth' in key or 'Level' in key %}
+                                                    <i class="fa-solid fa-ruler-vertical"></i>
+                                                {% elif 'Settlement' in key %}
+                                                    <i class="fa-solid fa-arrows-down-to-line"></i>
+                                                {% elif 'Density' in key or 'Weight' in key or 'Gravity' in key %}
+                                                    <i class="fa-solid fa-atom"></i>
+                                                {% else %}
+                                                    <i class="fa-solid fa-chart-simple"></i>
+                                                {% endif %}
+                                                <span>{{ key }}</span>
+                                            </td>
+
+                                            <td class="param-bar-cell">
+                                                <div class="mini-progress-bar">
+                                                    {% if 'Bearing Capacity' in key %}
+                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float / 3.5)]|min }}%;"></div>
+                                                    {% elif 'SPT' in key %}
+                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
+                                                    {% elif 'Friction' in key %}
+                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2.2)]|min }}%;"></div>
+                                                    {% elif 'Cohesion' in key %}
+                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 1.5)]|min }}%;"></div>
+                                                    {% elif 'Moisture' in key %}
+                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
+                                                    {% else %}
+                                                        <div class="mini-progress-fill" style="width: 50%;"></div>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+
+                                            <td class="param-value">
+                                                {{ value }}
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <!-- Recommended Foundation Final Row -->
+                                    {% if 'Recommended Foundation' in result.details %}
+                                    <tr class="highlight-foundation-row">
+                                        <td class="fw-bold">
+                                            <i class="fa-solid fa-award text-warning me-2"></i> Recommended Foundation Strategy
+                                        </td>
+                                        <td class="param-bar-cell">
+                                            <span class="badge bg-success bg-opacity-25 text-success">Optimal Match</span>
+                                        </td>
+                                        <td class="param-value text-info fs-5 fw-bold">
+                                            {{ result.details['Recommended Foundation'] }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Bottom Action Bar -->
+                        <div class="action-toolbar">
+                            <button class="btn-secondary-action" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                                <i class="fa-solid fa-arrow-up"></i> Analyze Another Location
+                            </button>
+                            <button class="btn-secondary-action" onclick="copyFullReport()">
+                                <i class="fa-regular fa-clipboard"></i> Copy Summary
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
     </div>
-    {% endif %}
 
-</div>
+    <!-- Toast Notification Box -->
+    <div id="toastNotice">
+        <i class="fa-solid fa-circle-check text-cyan"></i>
+        <span id="toastMsg">Location loaded</span>
+    </div>
 
+    <script>
+        // --- 1. Interactive Background Canvas Animation ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles = [];
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class GeotechNode {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? 'rgba(59, 130, 246,' : 'rgba(6, 182, 212,';
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + '0.5)';
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) particles.push(new GeotechNode());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${(1 - dist/120) * 0.15})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // --- 2. Quick Sector Selection ---
+        function setSector(lat, lng, element, sectorName) {
+            document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
+            if (element) element.classList.add('active');
+
+            const latInput = document.getElementById('latInput');
+            const lngInput = document.getElementById('lngInput');
+
+            latInput.value = parseFloat(lat).toFixed(6);
+            lngInput.value = parseFloat(lng).toFixed(6);
+
+            latInput.classList.remove('input-highlight');
+            lngInput.classList.remove('input-highlight');
+            void latInput.offsetWidth;
+            latInput.classList.add('input-highlight');
+            lngInput.classList.add('input-highlight');
+
+            showToast(`Loaded Sector: ${sectorName} (${latInput.value}, ${lngInput.value})`);
+        }
+
+        // --- 3. Instant High-Accuracy GPS Geolocation Lock ---
+        function getHighAccuracyGPS() {
+            if (!navigator.geolocation) {
+                showToast("Geolocation is not supported by your browser.", true);
+                return;
+            }
+
+            const btnText = document.getElementById('gpsBtnText');
+            const originalText = btnText.innerText;
+            btnText.innerHTML = '<i class="fa-solid fa-satellite-dish fa-spin"></i> Locking High-Precision GPS...';
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    const accuracy = position.coords.accuracy || 10;
+
+                    btnText.innerHTML = '<i class="fa-solid fa-circle-check text-success"></i> GPS Position Locked!';
+                    setTimeout(() => { btnText.innerText = originalText; }, 3000);
+
+                    const latInput = document.getElementById('latInput');
+                    const lngInput = document.getElementById('lngInput');
+
+                    latInput.value = parseFloat(userLat).toFixed(6);
+                    lngInput.value = parseFloat(userLng).toFixed(6);
+
+                    latInput.classList.remove('input-highlight');
+                    lngInput.classList.remove('input-highlight');
+                    void latInput.offsetWidth;
+                    latInput.classList.add('input-highlight');
+                    lngInput.classList.add('input-highlight');
+
+                    showToast(`GPS Locked: ${latInput.value}, ${lngInput.value} (±${Math.round(accuracy)}m)`);
+                },
+                (error) => {
+                    btnText.innerText = originalText;
+                    let msg = "Could not retrieve GPS lock. Please check browser location permissions.";
+                    if (error.code === error.PERMISSION_DENIED) {
+                        msg = "Location permission denied. Please enter coordinates or choose a preset.";
+                    }
+                    showToast(msg, true);
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        // --- 4. Form Submit Handler ---
+        function handleFormSubmit(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const loader = document.getElementById('submitLoader');
+
+            btnText.style.display = 'none';
+            loader.style.display = 'flex';
+            submitBtn.style.pointerEvents = 'none';
+            submitBtn.style.opacity = '0.9';
+        }
+
+        // --- 5. Utilities ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate counters if present
+            document.querySelectorAll('.counter-value').forEach(counter => {
+                const target = parseFloat(counter.getAttribute('data-target'));
+                if (isNaN(target)) return;
+                let count = 0;
+                const increment = target / 35;
+                const update = () => {
+                    count += increment;
+                    if (count < target) {
+                        counter.innerText = Number.isInteger(target) ? Math.ceil(count) : count.toFixed(2);
+                        setTimeout(update, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                update();
+            });
+
+            // Smooth scroll to results
+            const resultsSection = document.getElementById('resultsSection');
+            if (resultsSection) {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toastNotice');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = msg;
+            toast.style.borderColor = isError ? '#f43f5e' : '#38bdf8';
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 4000);
+        }
+
+        function copyCoords(lat, lng) {
+            navigator.clipboard.writeText(`${lat}, ${lng}`).then(() => {
+                showToast(`Copied Coordinates: ${lat}, ${lng}`);
+            });
+        }
+
+        function copyFullReport() {
+            const locality = document.querySelector('.locality-title')?.innerText || 'Chennai';
+            const foundation = document.querySelector('.metric-card.hero-recommendation .metric-value')?.innerText || 'N/A';
+            const text = `Chennai Geotechnical Soil Report\nArea: ${locality}\nRecommended Foundation: ${foundation}\nAnalysis Engine: AI Spatial KDTree`;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Report summary copied to clipboard!");
+            });
+        }
+    </script>
 </body>
 </html>
