@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -71,17 +74,20 @@
             z-index: -1;
             animation: floatGlow 20s infinite alternate ease-in-out;
         }
+
         .glow-1 {
             top: -100px;
             left: -100px;
             background: radial-gradient(circle, #3b82f6, #06b6d4);
         }
+
         .glow-2 {
             bottom: 10%;
             right: -100px;
             background: radial-gradient(circle, #10b981, #3b82f6);
             animation-delay: -7s;
         }
+
         .glow-3 {
             top: 40%;
             left: 40%;
@@ -91,9 +97,17 @@
         }
 
         @keyframes floatGlow {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(60px, 40px) scale(1.1); }
-            100% { transform: translate(-40px, 80px) scale(0.95); }
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(60px, 40px) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-40px, 80px) scale(0.95);
+            }
         }
 
         /* Hero Header */
@@ -125,13 +139,31 @@
         }
 
         @keyframes dotPing {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.3); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(1.3);
+            }
         }
 
         @keyframes badgePulse {
-            0%, 100% { border-color: rgba(16, 185, 129, 0.35); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
-            50% { border-color: rgba(16, 185, 129, 0.7); box-shadow: 0 0 25px rgba(16, 185, 129, 0.25); }
+
+            0%,
+            100% {
+                border-color: rgba(16, 185, 129, 0.35);
+                box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+            }
+
+            50% {
+                border-color: rgba(16, 185, 129, 0.7);
+                box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
+            }
         }
 
         .hero-title {
@@ -142,7 +174,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 12px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .hero-subtitle {
@@ -183,8 +215,13 @@
         }
 
         @keyframes beamTravel {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         /* Preset Chips */
@@ -281,8 +318,17 @@
         }
 
         @keyframes fieldGlow {
-            0%, 100% { border-color: rgba(255, 255, 255, 0.12); box-shadow: none; }
-            50% { border-color: #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+
+            0%,
+            100% {
+                border-color: rgba(255, 255, 255, 0.12);
+                box-shadow: none;
+            }
+
+            50% {
+                border-color: #10b981;
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            }
         }
 
         .form-control-custom::placeholder {
@@ -361,8 +407,15 @@
         }
 
         @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Locality Header Hero Card */
@@ -441,10 +494,25 @@
             margin-bottom: 12px;
         }
 
-        .icon-blue { background: rgba(59, 130, 246, 0.18); color: #60a5fa; }
-        .icon-emerald { background: rgba(16, 185, 129, 0.18); color: #34d399; }
-        .icon-amber { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
-        .icon-purple { background: rgba(139, 92, 246, 0.18); color: #a78bfa; }
+        .icon-blue {
+            background: rgba(59, 130, 246, 0.18);
+            color: #60a5fa;
+        }
+
+        .icon-emerald {
+            background: rgba(16, 185, 129, 0.18);
+            color: #34d399;
+        }
+
+        .icon-amber {
+            background: rgba(245, 158, 11, 0.18);
+            color: #fbbf24;
+        }
+
+        .icon-purple {
+            background: rgba(139, 92, 246, 0.18);
+            color: #a78bfa;
+        }
 
         .metric-label {
             font-size: 0.8rem;
@@ -488,7 +556,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
         }
 
         .strata-layer {
@@ -506,14 +574,14 @@
         .strata-topsoil {
             height: 25%;
             background: linear-gradient(90deg, #475569, #334155);
-            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
             color: #e2e8f0;
         }
 
         .strata-target {
             height: 50%;
             background: linear-gradient(135deg, #1e3a8a 0%, #0f766e 100%);
-            border-bottom: 1px dashed rgba(255,255,255,0.2);
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
             color: #ffffff;
             position: relative;
             overflow: hidden;
@@ -699,7 +767,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Toast */
@@ -714,7 +784,7 @@
             border-radius: 12px;
             font-size: 0.85rem;
             font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -729,8 +799,34 @@
             transform: translateY(0);
             opacity: 1;
         }
+
+        /* Enhanced animations */
+        .animate-fade-slide {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideIn 0.8s forwards ease-out;
+        }
+
+        @keyframes fadeSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Apply to key UI components */
+        .hero-title,
+        .preset-chip,
+        .metric-card,
+        .map-frame-wrapper,
+        .btn-analyze,
+        .btn-gps-accuracy,
+        .btn-secondary-action {
+            animation: fadeSlideIn 0.8s ease-out;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Interactive Canvas Background -->
@@ -751,7 +847,8 @@
             </div>
             <h1 class="hero-title">Chennai Soil Stratum & Parameter AI</h1>
             <p class="hero-subtitle">
-                Sub-meter accuracy geotechnical borehole interpolation, Google Maps location resolution, and foundation engineering recommendations.
+                Sub-meter accuracy geotechnical borehole interpolation, Google Maps location resolution, and foundation
+                engineering recommendations.
             </p>
         </div>
 
@@ -773,7 +870,7 @@
                         <span>Select a Chennai Sector:</span>
                     </div>
                     <div class="preset-grid">
-                        <div class="preset-chip active" onclick="setSector(13.006721, 80.220596, this, 'Guindy')">
+                        <div class="preset-chip" onclick="setSector(13.006721, 80.220596, this, 'Guindy')">
                             <i class="fa-solid fa-building-columns"></i> Guindy
                         </div>
                         <div class="preset-chip" onclick="setSector(13.041828, 80.234116, this, 'T Nagar')">
@@ -791,7 +888,8 @@
                         <div class="preset-chip" onclick="setSector(12.981494, 80.217961, this, 'Velachery')">
                             <i class="fa-solid fa-water-ladder"></i> Velachery
                         </div>
-                        <div class="preset-chip" onclick="setSector(12.900968, 80.227822, this, 'Sholinganallur / OMR')">
+                        <div class="preset-chip"
+                            onclick="setSector(12.900968, 80.227822, this, 'Sholinganallur / OMR')">
                             <i class="fa-solid fa-laptop-code"></i> OMR / Sholinganallur
                         </div>
                         <div class="preset-chip" onclick="setSector(13.000332, 80.266759, this, 'Besant Nagar')">
@@ -820,16 +918,9 @@
                                 </label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-map-pin input-icon-badge"></i>
-                                    <input 
-                                        type="number" 
-                                        step="any" 
-                                        class="form-control form-control-custom" 
-                                        id="latInput"
-                                        name="latitude" 
-                                        placeholder="e.g. 13.006721" 
-                                        value="{{ request.form.get('latitude', '13.006721') }}" 
-                                        required
-                                    >
+                                    <input type="number" step="any" class="form-control form-control-custom"
+                                        id="latInput" name="latitude" placeholder="e.g. 13.006721"
+                                        value="{{ request.form.get('latitude', '0') }}" required>
                                 </div>
                                 <div class="input-subtext">
                                     <span>Greater Chennai Bounds:</span>
@@ -843,16 +934,9 @@
                                 </label>
                                 <div class="input-wrapper">
                                     <i class="fa-solid fa-globe input-icon-badge"></i>
-                                    <input 
-                                        type="number" 
-                                        step="any" 
-                                        class="form-control form-control-custom" 
-                                        id="lngInput"
-                                        name="longitude" 
-                                        placeholder="e.g. 80.220596" 
-                                        value="{{ request.form.get('longitude', '80.220596') }}" 
-                                        required
-                                    >
+                                    <input type="number" step="any" class="form-control form-control-custom"
+                                        id="lngInput" name="longitude" placeholder="e.g. 80.220596"
+                                        value="{{ request.form.get('longitude', '0') }}" required>
                                 </div>
                                 <div class="input-subtext">
                                     <span>Greater Chennai Bounds:</span>
@@ -880,7 +964,8 @@
         {% if error_msg %}
         <div class="row justify-content-center mb-4">
             <div class="col-lg-7 col-md-9">
-                <div class="alert alert-danger bg-danger bg-opacity-10 border border-danger border-opacity-25 text-danger rounded-4 p-3 d-flex align-items-center gap-3">
+                <div
+                    class="alert alert-danger bg-danger bg-opacity-10 border border-danger border-opacity-25 text-danger rounded-4 p-3 d-flex align-items-center gap-3">
                     <i class="fa-solid fa-triangle-exclamation fs-3"></i>
                     <div>
                         <div class="fw-bold">Spatial Coordinate Restriction</div>
@@ -901,22 +986,33 @@
                     <div class="locality-header-card mb-4">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <span class="badge bg-primary bg-opacity-25 text-info px-3 py-1 mb-2 fw-bold text-uppercase" style="letter-spacing: 0.5px;">
+                                <span
+                                    class="badge bg-primary bg-opacity-25 text-info px-3 py-1 mb-2 fw-bold text-uppercase"
+                                    style="letter-spacing: 0.5px;">
                                     <i class="fa-solid fa-location-dot me-1"></i> Area & Postal Code
                                 </span>
-                                <div class="locality-title">{{ result.details['Area & Pincode'] or result.details['Locality Place'] }}</div>
+                                <div class="locality-title">{{ result.details['Area & Pincode'] or
+                                    result.details['Locality Place'] }}</div>
                                 <div class="d-flex flex-wrap mt-2">
                                     <div class="meta-tag">
-                                        <i class="fa-solid fa-layer-group text-info"></i> Geotechnical Sector: <strong>{{ result.details['Locality Place'] }}</strong>
+                                        <i class="fa-solid fa-layer-group text-info"></i> Geotechnical Sector:
+                                        <strong>{{ result.details['Locality Place'] }}</strong>
                                     </div>
                                     <div class="meta-tag">
-                                        <i class="fa-solid fa-bore-hole text-secondary"></i> Nearest Borehole ID: <strong>{{ result.details['Borehole Reference'] }}</strong>
+                                        <i class="fa-solid fa-bore-hole text-secondary"></i> Nearest Borehole ID:
+                                        <strong>{{ result.details['Borehole Reference'] }}</strong>
                                     </div>
-                                    <div class="meta-tag" onclick="copyCoords('{{ result.details['Nearest Dataset Latitude'] }}', '{{ result.details['Nearest Dataset Longitude'] }}')" style="cursor: pointer;" title="Click to copy">
-                                        <i class="fa-solid fa-crosshairs text-info"></i> Dataset Anchor: <strong>{{ result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest Dataset Longitude'] }}</strong> <i class="fa-regular fa-copy ms-1 small"></i>
+                                    <div class="meta-tag"
+                                        onclick="copyCoords('{{ result.details['Nearest Dataset Latitude'] }}', '{{ result.details['Nearest Dataset Longitude'] }}')"
+                                        style="cursor: pointer;" title="Click to copy">
+                                        <i class="fa-solid fa-crosshairs text-info"></i> Dataset Anchor: <strong>{{
+                                            result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest
+                                            Dataset Longitude'] }}</strong> <i
+                                            class="fa-regular fa-copy ms-1 small"></i>
                                     </div>
                                     <div class="meta-tag">
-                                        <i class="fa-solid fa-user-pin text-success"></i> Query Coordinates: <strong>{{ result.user_lat }}, {{ result.user_lng }}</strong>
+                                        <i class="fa-solid fa-user-pin text-success"></i> Query Coordinates: <strong>{{
+                                            result.user_lat }}, {{ result.user_lng }}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -939,7 +1035,8 @@
                                         <i class="fa-solid fa-building-shield"></i>
                                     </div>
                                     <div class="metric-label">Foundation Rec.</div>
-                                    <div class="metric-value fs-5 text-info">{{ result.details['Recommended Foundation'] }}</div>
+                                    <div class="metric-value fs-5 text-info">{{ result.details['Recommended Foundation']
+                                        }}</div>
                                 </div>
                                 <span class="badge bg-primary bg-opacity-25 text-info mt-2">
                                     <i class="fa-solid fa-check-double me-1"></i> Recommended
@@ -972,7 +1069,8 @@
                                         <i class="fa-solid fa-weight-hanging"></i>
                                     </div>
                                     <div class="metric-label">Bearing Capacity</div>
-                                    <div class="metric-value counter-value" data-target="{{ result.details.get('Bearing Capacity (kN/m²)', '0') }}">
+                                    <div class="metric-value counter-value"
+                                        data-target="{{ result.details.get('Bearing Capacity (kN/m²)', '0') }}">
                                         {{ result.details.get('Bearing Capacity (kN/m²)', 'N/A') }}
                                     </div>
                                     <span class="metric-unit">kN/m²</span>
@@ -991,7 +1089,8 @@
                                         <i class="fa-solid fa-hammer"></i>
                                     </div>
                                     <div class="metric-label">SPT N-Value</div>
-                                    <div class="metric-value counter-value" data-target="{{ result.details.get('SPT N Value', '0') }}">
+                                    <div class="metric-value counter-value"
+                                        data-target="{{ result.details.get('SPT N Value', '0') }}">
                                         {{ result.details.get('SPT N Value', 'N/A') }}
                                     </div>
                                     <span class="metric-unit">Blows / 30cm</span>
@@ -1003,40 +1102,12 @@
                         </div>
                     </div>
 
-                    <!-- Geotechnical Strata Cross-Section Visualizer -->
-                    <div class="strata-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h6 class="text-light fw-bold mb-0">
-                                <i class="fa-solid fa-diagram-project text-cyan me-2"></i> Subsurface Strata Cross-Section Profile
-                            </h6>
-                            <span class="text-secondary small">Interpolated Borehole Column</span>
-                        </div>
-                        <div class="strata-column">
-                            <div class="strata-layer strata-topsoil">
-                                <span><i class="fa-solid fa-seedling me-2 text-success"></i> 0.0m - Ground Surface</span>
-                                <span class="text-muted small">Topsoil</span>
-                            </div>
-                            <div class="strata-layer strata-target">
-                                <div>
-                                    <i class="fa-solid fa-cubes-stacked me-2 text-warning"></i>
-                                    <strong>{{ result.details['Soil Type'] }}</strong>
-                                    <span class="badge bg-dark bg-opacity-50 ms-2">SPT N: {{ result.details.get('SPT N Value', '-') }}</span>
-                                </div>
-                                <div class="text-info small fw-bold">Primary Foundation Strata</div>
-                            </div>
-                            <div class="strata-water-marker">
-                                <span class="strata-water-label">
-                                    <i class="fa-solid fa-water me-1"></i> Groundwater Table (~{{ result.details.get('Groundwater Level (m)', '2.5') }}m)
-                                </span>
-                            </div>
-                            <div class="strata-layer strata-deep">
-                                <span><i class="fa-solid fa-gem me-2 text-info"></i> Base Strata Baseline</span>
-                                <span class="text-muted small">Depth ~{{ result.details.get('Depth (m)', '15.0') }}m</span>
-                            </div>
-                        </div>
+                    <!-- Map Visualization -->
+                    <div class="map-frame-wrapper">
+                        <iframe
+                            src="https://maps.google.com/maps?q={{ result.user_lat }},{{ result.user_lng }}&z=15&output=embed"
+                            loading="lazy" style="border:0;"></iframe>
                     </div>
-
-                    <!-- Map Visualization removed per user request -->
 
                     <!-- Comprehensive Parameters Data Table -->
                     <div class="glass-card p-4">
@@ -1048,7 +1119,7 @@
                                 KDTree Distance-Weighted Interpolation
                             </span>
                         </div>
-                        
+
                         <div class="table-responsive report-table-card">
                             <table class="report-table">
                                 <thead>
@@ -1060,68 +1131,76 @@
                                 </thead>
                                 <tbody>
                                     {% for key, value in result.details.items() %}
-                                        {% if key not in ['Area & Pincode', 'Locality Place', 'Borehole Reference', 'Nearest Dataset Latitude', 'Nearest Dataset Longitude', 'Recommended Foundation'] %}
-                                        <tr>
-                                            <td class="param-name">
-                                                {% if 'Cohesion' in key %}
-                                                    <i class="fa-solid fa-link"></i>
-                                                {% elif 'Friction' in key %}
-                                                    <i class="fa-solid fa-compass-drafting"></i>
-                                                {% elif 'Permeability' in key %}
-                                                    <i class="fa-solid fa-droplet"></i>
-                                                {% elif 'Moisture' in key %}
-                                                    <i class="fa-solid fa-water"></i>
-                                                {% elif 'Limit' in key or 'Plasticity' in key %}
-                                                    <i class="fa-solid fa-flask-vial"></i>
-                                                {% elif 'Bearing' in key %}
-                                                    <i class="fa-solid fa-weight-hanging"></i>
+                                    {% if key not in ['Area & Pincode', 'Locality Place', 'Borehole Reference', 'Nearest
+                                    Dataset Latitude', 'Nearest Dataset Longitude', 'Recommended Foundation'] %}
+                                    <tr>
+                                        <td class="param-name">
+                                            {% if 'Cohesion' in key %}
+                                            <i class="fa-solid fa-link"></i>
+                                            {% elif 'Friction' in key %}
+                                            <i class="fa-solid fa-compass-drafting"></i>
+                                            {% elif 'Permeability' in key %}
+                                            <i class="fa-solid fa-droplet"></i>
+                                            {% elif 'Moisture' in key %}
+                                            <i class="fa-solid fa-water"></i>
+                                            {% elif 'Limit' in key or 'Plasticity' in key %}
+                                            <i class="fa-solid fa-flask-vial"></i>
+                                            {% elif 'Bearing' in key %}
+                                            <i class="fa-solid fa-weight-hanging"></i>
+                                            {% elif 'SPT' in key %}
+                                            <i class="fa-solid fa-hammer"></i>
+                                            {% elif 'Depth' in key or 'Level' in key %}
+                                            <i class="fa-solid fa-ruler-vertical"></i>
+                                            {% elif 'Settlement' in key %}
+                                            <i class="fa-solid fa-arrows-down-to-line"></i>
+                                            {% elif 'Density' in key or 'Weight' in key or 'Gravity' in key %}
+                                            <i class="fa-solid fa-atom"></i>
+                                            {% else %}
+                                            <i class="fa-solid fa-chart-simple"></i>
+                                            {% endif %}
+                                            <span>{{ key }}</span>
+                                        </td>
+
+                                        <td class="param-bar-cell">
+                                            <div class="mini-progress-bar">
+                                                {% if 'Bearing Capacity' in key %}
+                                                <div class="mini-progress-fill"
+                                                    style="width: {{ [100, (value|float / 3.5)]|min }}%;"></div>
                                                 {% elif 'SPT' in key %}
-                                                    <i class="fa-solid fa-hammer"></i>
-                                                {% elif 'Depth' in key or 'Level' in key %}
-                                                    <i class="fa-solid fa-ruler-vertical"></i>
-                                                {% elif 'Settlement' in key %}
-                                                    <i class="fa-solid fa-arrows-down-to-line"></i>
-                                                {% elif 'Density' in key or 'Weight' in key or 'Gravity' in key %}
-                                                    <i class="fa-solid fa-atom"></i>
+                                                <div class="mini-progress-fill"
+                                                    style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
+                                                {% elif 'Friction' in key %}
+                                                <div class="mini-progress-fill"
+                                                    style="width: {{ [100, (value|float * 2.2)]|min }}%;"></div>
+                                                {% elif 'Cohesion' in key %}
+                                                <div class="mini-progress-fill"
+                                                    style="width: {{ [100, (value|float * 1.5)]|min }}%;"></div>
+                                                {% elif 'Moisture' in key %}
+                                                <div class="mini-progress-fill"
+                                                    style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
                                                 {% else %}
-                                                    <i class="fa-solid fa-chart-simple"></i>
+                                                <div class="mini-progress-fill" style="width: 50%;"></div>
                                                 {% endif %}
-                                                <span>{{ key }}</span>
-                                            </td>
+                                            </div>
+                                        </td>
 
-                                            <td class="param-bar-cell">
-                                                <div class="mini-progress-bar">
-                                                    {% if 'Bearing Capacity' in key %}
-                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float / 3.5)]|min }}%;"></div>
-                                                    {% elif 'SPT' in key %}
-                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
-                                                    {% elif 'Friction' in key %}
-                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2.2)]|min }}%;"></div>
-                                                    {% elif 'Cohesion' in key %}
-                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 1.5)]|min }}%;"></div>
-                                                    {% elif 'Moisture' in key %}
-                                                        <div class="mini-progress-fill" style="width: {{ [100, (value|float * 2)]|min }}%;"></div>
-                                                    {% else %}
-                                                        <div class="mini-progress-fill" style="width: 50%;"></div>
-                                                    {% endif %}
-                                                </div>
-                                            </td>
-
-                                            <td class="param-value">
-                                                {{ value }}
-                                            </td>
-                                        </tr>
-                                        {% endif %}
+                                        <td class="param-value">
+                                            {{ value }}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
                                     {% endfor %}
 
                                     <!-- Recommended Foundation Final Row -->
                                     {% if 'Recommended Foundation' in result.details %}
                                     <tr class="highlight-foundation-row">
                                         <td class="fw-bold">
-                                            <i class="fa-solid fa-award text-warning me-2"></i> Recommended Foundation Strategy
+                                            <i class="fa-solid fa-award text-warning me-2"></i> Recommended Foundation
+                                            Strategy
                                         </td>
                                         <td class="param-bar-cell">
-                                            <span class="badge bg-success bg-opacity-25 text-success">Optimal Match</span>
+                                            <span class="badge bg-success bg-opacity-25 text-success">Optimal
+                                                Match</span>
                                         </td>
                                         <td class="param-value text-info fs-5 fw-bold">
                                             {{ result.details['Recommended Foundation'] }}
@@ -1134,7 +1213,8 @@
 
                         <!-- Bottom Action Bar -->
                         <div class="action-toolbar">
-                            <button class="btn-secondary-action" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                            <button class="btn-secondary-action"
+                                onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
                                 <i class="fa-solid fa-arrow-up"></i> Analyze Another Location
                             </button>
                             <button class="btn-secondary-action" onclick="copyFullReport()">
@@ -1208,7 +1288,7 @@
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(56, 189, 248, ${(1 - dist/120) * 0.15})`;
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${(1 - dist / 120) * 0.15})`;
                         ctx.lineWidth = 0.8;
                         ctx.stroke();
                     }
@@ -1352,4 +1432,5 @@
         }
     </script>
 </body>
+
 </html>
