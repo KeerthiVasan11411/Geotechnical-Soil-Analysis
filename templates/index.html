@@ -224,57 +224,6 @@
             }
         }
 
-        /* Preset Chips */
-        .preset-section-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .preset-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
-        .preset-chip {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            color: #cbd5e1;
-            padding: 7px 14px;
-            border-radius: 9999px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            user-select: none;
-        }
-
-        .preset-chip:hover {
-            background: rgba(59, 130, 246, 0.18);
-            border-color: rgba(96, 165, 250, 0.5);
-            color: #60a5fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-        }
-
-        .preset-chip.active {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(6, 182, 212, 0.35));
-            border-color: #38bdf8;
-            color: #ffffff;
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
-        }
-
         /* Form Inputs */
         .input-wrapper {
             position: relative;
@@ -816,7 +765,6 @@
 
         /* Apply to key UI components */
         .hero-title,
-        .preset-chip,
         .metric-card,
         .map-frame-wrapper,
         .btn-analyze,
@@ -863,51 +811,6 @@
                         <i class="fa-solid fa-location-crosshairs fs-5"></i>
                         <span id="gpsBtnText">Detect My Exact Current GPS Location</span>
                     </button>
-
-                    <!-- Quick Preset Chips -->
-                    <div class="preset-section-title">
-                        <i class="fa-solid fa-city text-cyan"></i>
-                        <span>Select a Chennai Sector:</span>
-                    </div>
-                    <div class="preset-grid">
-                        <div class="preset-chip" onclick="setSector(13.006721, 80.220596, this, 'Guindy')">
-                            <i class="fa-solid fa-building-columns"></i> Guindy
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.041828, 80.234116, this, 'T Nagar')">
-                            <i class="fa-solid fa-shop"></i> T. Nagar
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.084997, 80.210054, this, 'Anna Nagar')">
-                            <i class="fa-solid fa-tree"></i> Anna Nagar
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.006681, 80.257192, this, 'Adyar')">
-                            <i class="fa-solid fa-water"></i> Adyar
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.033948, 80.267612, this, 'Mylapore')">
-                            <i class="fa-solid fa-place-of-worship"></i> Mylapore
-                        </div>
-                        <div class="preset-chip" onclick="setSector(12.981494, 80.217961, this, 'Velachery')">
-                            <i class="fa-solid fa-water-ladder"></i> Velachery
-                        </div>
-                        <div class="preset-chip"
-                            onclick="setSector(12.900968, 80.227822, this, 'Sholinganallur / OMR')">
-                            <i class="fa-solid fa-laptop-code"></i> OMR / Sholinganallur
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.000332, 80.266759, this, 'Besant Nagar')">
-                            <i class="fa-solid fa-umbrella-beach"></i> Besant Nagar
-                        </div>
-                        <div class="preset-chip" onclick="setSector(12.924902, 80.100057, this, 'Tambaram')">
-                            <i class="fa-solid fa-train"></i> Tambaram
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.035718, 80.156471, this, 'Porur')">
-                            <i class="fa-solid fa-road"></i> Porur
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.114278, 80.154795, this, 'Ambattur')">
-                            <i class="fa-solid fa-industry"></i> Ambattur
-                        </div>
-                        <div class="preset-chip" onclick="setSector(13.115154, 80.293130, this, 'Royapuram')">
-                            <i class="fa-solid fa-anchor"></i> Royapuram
-                        </div>
-                    </div>
 
                     <!-- Coordinates Form -->
                     <form method="POST" id="analysisForm" onsubmit="handleFormSubmit(event)">
@@ -1001,18 +904,6 @@
                                     <div class="meta-tag">
                                         <i class="fa-solid fa-bore-hole text-secondary"></i> Nearest Borehole ID:
                                         <strong>{{ result.details['Borehole Reference'] }}</strong>
-                                    </div>
-                                    <div class="meta-tag"
-                                        onclick="copyCoords('{{ result.details['Nearest Dataset Latitude'] }}', '{{ result.details['Nearest Dataset Longitude'] }}')"
-                                        style="cursor: pointer;" title="Click to copy">
-                                        <i class="fa-solid fa-crosshairs text-info"></i> Dataset Anchor: <strong>{{
-                                            result.details['Nearest Dataset Latitude'] }}, {{ result.details['Nearest
-                                            Dataset Longitude'] }}</strong> <i
-                                            class="fa-regular fa-copy ms-1 small"></i>
-                                    </div>
-                                    <div class="meta-tag">
-                                        <i class="fa-solid fa-user-pin text-success"></i> Query Coordinates: <strong>{{
-                                            result.user_lat }}, {{ result.user_lng }}</strong>
                                     </div>
                                 </div>
                             </div>
@@ -1298,27 +1189,7 @@
         }
         animateCanvas();
 
-        // --- 2. Quick Sector Selection ---
-        function setSector(lat, lng, element, sectorName) {
-            document.querySelectorAll('.preset-chip').forEach(c => c.classList.remove('active'));
-            if (element) element.classList.add('active');
-
-            const latInput = document.getElementById('latInput');
-            const lngInput = document.getElementById('lngInput');
-
-            latInput.value = parseFloat(lat).toFixed(6);
-            lngInput.value = parseFloat(lng).toFixed(6);
-
-            latInput.classList.remove('input-highlight');
-            lngInput.classList.remove('input-highlight');
-            void latInput.offsetWidth;
-            latInput.classList.add('input-highlight');
-            lngInput.classList.add('input-highlight');
-
-            showToast(`Loaded Sector: ${sectorName} (${latInput.value}, ${lngInput.value})`);
-        }
-
-        // --- 3. Instant High-Accuracy GPS Geolocation Lock ---
+        // --- 2. Instant High-Accuracy GPS Geolocation Lock ---
         function getHighAccuracyGPS() {
             if (!navigator.geolocation) {
                 showToast("Geolocation is not supported by your browser.", true);
@@ -1356,7 +1227,7 @@
                     btnText.innerText = originalText;
                     let msg = "Could not retrieve GPS lock. Please check browser location permissions.";
                     if (error.code === error.PERMISSION_DENIED) {
-                        msg = "Location permission denied. Please enter coordinates or choose a preset.";
+                        msg = "Location permission denied. Please enter coordinates.";
                     }
                     showToast(msg, true);
                 },
@@ -1368,7 +1239,7 @@
             );
         }
 
-        // --- 4. Form Submit Handler ---
+        // --- 3. Form Submit Handler ---
         function handleFormSubmit(e) {
             const submitBtn = document.getElementById('submitBtn');
             const btnText = submitBtn.querySelector('.btn-text');
@@ -1380,7 +1251,7 @@
             submitBtn.style.opacity = '0.9';
         }
 
-        // --- 5. Utilities ---
+        // --- 4. Utilities ---
         document.addEventListener('DOMContentLoaded', () => {
             // Animate counters if present
             document.querySelectorAll('.counter-value').forEach(counter => {
@@ -1414,12 +1285,6 @@
             toast.style.borderColor = isError ? '#f43f5e' : '#38bdf8';
             toast.classList.add('show');
             setTimeout(() => { toast.classList.remove('show'); }, 4000);
-        }
-
-        function copyCoords(lat, lng) {
-            navigator.clipboard.writeText(`${lat}, ${lng}`).then(() => {
-                showToast(`Copied Coordinates: ${lat}, ${lng}`);
-            });
         }
 
         function copyFullReport() {
